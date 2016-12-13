@@ -26,53 +26,10 @@ if(cool){ //please move to the onLoad
 }
 
 
-function change(color) { //changes the background to the given color
-	document.body.style.backgroundColor = color;
-}
-
 function closeWindow(){
     window.close()
 }
 
-function getRandomColor() { //gets a random color and changes background to that color
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-   	}
-    change(color)
-    cs('color', color, 3650)
-    chrome.storage.sync.set({'color': color}, function() {
-          console.log('Settings saved');
-        });
-    return color;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-//cookies will be removed
-
-function cs(n, v, t){ //sets cookie
-    var d = new Date();
-    d.setTime(d.getTime() + (t*24*60*60*1000));
-    var e = "expires="+ d.toUTCString();
-    document.cookie = n + "=" + v + ";" + e + ";path=/";
-}
-
-function gc(n){ //gets cookie
-    var nm = n + "="
-    var ca = document.cookie.split(';')
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(nm) == 0) {
-            return c.substring(nm.length,c.length);
-        }
-    }
-    return "";
-}
-/////////////////////////////////////////////////////////////////////////////////////////
 
 function format(display) { //formats the displayed time for the timer
     return function (minutes, seconds) {
@@ -83,7 +40,6 @@ function format(display) { //formats the displayed time for the timer
 }
 
 document.body.onload = function() {
-    change(gc('color')) //sets the current color to the stored color value
 
     var timerDisplay = document.querySelector('#timeDisplay');
     var timer;
