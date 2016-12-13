@@ -1,0 +1,27 @@
+
+#mainPopup {
+	padding: 10px;
+	height: 200px;
+	width: 400px;
+	font-family: Helvetica, Ubuntu, Arial, sans-serif;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+#closebutton{
+    float:right;
+    margin:6px 0;
+}
+
+a {
+    
+    text-decoration:none;
+}
+
+a:hover{
+    color:#000;
+    text-decoration:underline;
+}
+
