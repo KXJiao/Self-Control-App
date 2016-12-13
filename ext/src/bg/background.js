@@ -28,14 +28,11 @@ chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
   	chrome.pageAction.show(sender.tab.id);
     sendResponse();
-  });
 
-chrome.extension.onRequest.addListener(
-    function(request, sender, sendResponse){
-      if (request.msg == "timerChange") timerChange();
-    }
-  );
-
+//current work:
+  //   if (request.msg.includes("timerChange")) 
+  //     timerChange(request.msg.indexOf("timerChange"));
+  // });
 
 document.body.onload = function(){
 

@@ -11,27 +11,11 @@ if(box){
                     console.log("Runtime error.");
                 }
             });
-
-            //$('#test').attr('alt', e.target.value);
-            //output.innerHTML = e.target.value
         }
     }, false);
 }
 
-
-
-var cool = document.getElementById("cool")
-if(cool){ //please move to the onLoad
-    cool.addEventListener("click", getRandomColor);
-}
-
-
-function closeWindow(){
-    window.close()
-}
-
-
-function format(display) { //formats the displayed time for the timer
+function format(display) { //formatter for the 
     return function (minutes, seconds) {
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
@@ -51,7 +35,6 @@ document.body.onload = function() {
         timerDisplay.textContent = settings.get("time");
         setTimeout(refreshTimer, 100);
     }());
-    
 
     chrome.storage.sync.get("text", function(items) {
         if (!chrome.runtime.error) {
@@ -68,7 +51,7 @@ document.body.onload = function() {
         }
     });
     document.getElementById("close").onclick = function(){
-        closeWindow()
+        window.close()
     }
     document.getElementById("set").onclick = function() {
         var d = document.getElementById("text").value;
