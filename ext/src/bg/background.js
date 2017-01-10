@@ -26,13 +26,26 @@ function t(){
 //example of using a message handler from the inject scripts
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
-  	chrome.pageAction.show(sender.tab.id);
-    sendResponse();
+  	// chrome.pageAction.show(sender.tab.id);
+   //  sendResponse();
 
 //current work:
-  //   if (request.msg.includes("timerChange")) 
-  //     timerChange(request.msg.indexOf("timerChange"));
-  // });
+    // if (request.msg.includes("timerChange")){
+    //   timerChange(request.msg.indexOf("timerChange"));
+    // }
+
+    if(!isNaN(request.variable)){
+      if(timer!=null){
+        timer.stop();
+      }
+      changeTime(request.variable);
+      timer = new CountDownTimer(parseInt(getTime()));
+      timer.onTick(t()).start();
+
+      sendResponse({blah:request.variable});
+    }
+
+});
 
 document.body.onload = function(){
 
@@ -41,7 +54,7 @@ document.body.onload = function(){
   }
 
   timer = new CountDownTimer(parseInt(getTime()));
-  timer.onTick(t()).start()
+  timer.onTick(t()).start();
 
   
 }

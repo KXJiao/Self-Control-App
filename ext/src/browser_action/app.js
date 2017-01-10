@@ -23,17 +23,35 @@ function format(display) { //formatter for the
     };
 }
 
+function timeFormat(time) {
+    if(!isNaN(time)){
+        hr = parseInt(time / 3600, 10);
+        min = parseInt((time % 3600) / 60);
+        sec = parseInt((time % 3600) % 60);
+        
+        hr = hr < 10 ? "0" + hr : hr;
+        min = min < 10 ? "0" + min : min;
+        sec = sec < 10 ? "0" + sec : sec;
+        console.log(hr + ":" + min + ":" + sec);
+        return hr + ":" + min + ":" + sec;
+    }
+}
+
 document.body.onload = function() {
 
     var timerDisplay = document.querySelector('#timeDisplay');
     var timer;
 
     var settings = chrome.extension.getBackgroundPage().settings;
-    timerDisplay.textContent = settings.get("time");
+
+    console.log(settings.get("time"));
+    timerDisplay.textContent = timeFormat(settings.get("time"));
+
+
 
     (function refreshTimer() {
-        timerDisplay.textContent = settings.get("time");
-        setTimeout(refreshTimer, 100);
+        timerDisplay.textContent = timeFormat(settings.get("time"));
+        setTimeout(refreshTimer, 50);
     }());
 
     chrome.storage.sync.get("text", function(items) {
@@ -61,7 +79,6 @@ document.body.onload = function() {
             }
         });
     }
-    console.log(chrome.extension.getBackgroundPage());
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,11 +90,14 @@ document.body.onload = function() {
 
     document.getElementById("setTime").onclick = function() { //When setTime button clicked, sets the timer to be the value from the #time box.
         var time = $('#time').val();
-        if(timer!=null){
-            timer.stop();
+        if(time <= 1440){
+            time = time * 60;
+            chrome.runtime.sendMessage({variable: time},
+                function (response){
+                    newTime = response.blah;
+                    $("#test").text(timeFormat(newTime));
+            });
         }
-            timer = new CountDownTimer(time);
-            timer.onTick(format(timerDisplay)).start(); 
 
         
     }
