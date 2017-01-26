@@ -26,13 +26,7 @@ function t(){
 //example of using a message handler from the inject scripts
 chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
-  	// chrome.pageAction.show(sender.tab.id);
-   //  sendResponse();
 
-//current work:
-    // if (request.msg.includes("timerChange")){
-    //   timerChange(request.msg.indexOf("timerChange"));
-    // }
 
     if(!isNaN(request.variable)){
       if(timer!=null){
@@ -55,6 +49,8 @@ document.body.onload = function(){
 
   timer = new CountDownTimer(parseInt(getTime()));
   timer.onTick(t()).start();
+  console.log(timer.getStartTime());
 
-  
+
 }
+

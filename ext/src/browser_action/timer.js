@@ -4,6 +4,7 @@ function CountDownTimer(duration, granularity) {
   this.tickFtns = [];
   this.running = false;
   this.runID = -1;
+  this.startTime = Date.now()
 }
 
 CountDownTimer.prototype.start = function() {
@@ -14,6 +15,7 @@ CountDownTimer.prototype.start = function() {
   var start = Date.now(),
       that = this,
       diff, obj;
+  startTime = start;
 
   (function timer() {
     diff = that.duration - (((Date.now() - start) / 1000) | 0);
@@ -51,6 +53,10 @@ CountDownTimer.prototype.onTick = function(ftn) {
 CountDownTimer.prototype.expired = function() {
   return !this.running;
 };
+
+CountDownTimer.prototype.getStartTime = function(){
+  return startTime;
+}
 
 CountDownTimer.parse = function(seconds) {
   return {

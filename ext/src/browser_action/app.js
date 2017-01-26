@@ -32,10 +32,11 @@ function timeFormat(time) {
         hr = hr < 10 ? "0" + hr : hr;
         min = min < 10 ? "0" + min : min;
         sec = sec < 10 ? "0" + sec : sec;
-        console.log(hr + ":" + min + ":" + sec);
+
         return hr + ":" + min + ":" + sec;
     }
 }
+
 
 document.body.onload = function() {
 
@@ -47,12 +48,21 @@ document.body.onload = function() {
     console.log(settings.get("time"));
     timerDisplay.textContent = timeFormat(settings.get("time"));
 
-
-
-    (function refreshTimer() {
-        timerDisplay.textContent = timeFormat(settings.get("time"));
-        setTimeout(refreshTimer, 50);
+    var refresh;
+    refresh = (function refreshTimer() {  //TODO: make the refresh actually resfresh again
+        return function(){ 
+            timerDisplay.textContent = timeFormat(settings.get("time"));
+            if(!parseInt(settings.get("time")) <= 0)
+                setTimeout(refreshTimer(), 50);
+        
+        }
+        
     }());
+    refresh()
+
+    //refreshTimer();
+
+
 
     chrome.storage.sync.get("text", function(items) {
         if (!chrome.runtime.error) {
@@ -96,6 +106,7 @@ document.body.onload = function() {
                 function (response){
                     newTime = response.blah;
                     $("#test").text(timeFormat(newTime));
+                    refresh();
             });
         }
 
