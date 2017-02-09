@@ -58,6 +58,10 @@ CountDownTimer.prototype.getStartTime = function(){
   return startTime;
 }
 
+
+CountDownTimer.prototype.getDuration = function(){
+  return this.duration;
+}
 CountDownTimer.parse = function(seconds) {
   return {
     'minutes': (seconds / 60) | 0,

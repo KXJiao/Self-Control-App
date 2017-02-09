@@ -1,6 +1,9 @@
 
-var box = document.getElementById("box")
-var output= document.getElementById("output")
+var box = document.getElementById("box");
+var output= document.getElementById("output");
+var currentURL = "chrome://newtab";
+var blockList;
+
 if(box){
     box.addEventListener('input', function (e) {
         console.log(e.target.value);
@@ -38,12 +41,27 @@ function timeFormat(time) {
 }
 
 
+
+function openPage(url){
+
+    var blocklink = "http://https://obscure-dawn-82138.herokuapp.com/blockpage/" // add the express routing when other stuff is figured out
+    chrome.extension.sendRequest({redirect: blocklink}); // send message to redirect
+
+    
+}
+
+function blockStuff(){
+    openPage("test");
+}
+
 document.body.onload = function() {
 
     var timerDisplay = document.querySelector('#timeDisplay');
     var timer;
 
     var settings = chrome.extension.getBackgroundPage().settings;
+    var blockListvar = chrome.extension.getBackgroundPage().blockList;
+
 
     console.log(settings.get("time"));
     timerDisplay.textContent = timeFormat(settings.get("time"));
@@ -54,13 +72,14 @@ document.body.onload = function() {
             timerDisplay.textContent = timeFormat(settings.get("time"));
             if(!parseInt(settings.get("time")) <= 0)
                 setTimeout(refreshTimer(), 50);
+            else
+                //nothing, more added later
+                console.log("")
         
         }
         
     }());
     refresh()
-
-    //refreshTimer();
 
 
 
@@ -89,6 +108,18 @@ document.body.onload = function() {
             }
         });
     }
+
+
+
+    
+    chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT},
+        function(tabs){
+            currentURL = tabs[0].url
+            document.getElementById("currentURL").innerText = currentURL;
+
+        }
+    );
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

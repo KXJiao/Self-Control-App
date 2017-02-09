@@ -11,7 +11,7 @@
   },
   "default_locale": "en",
   "background": {
-    "scripts": ["src/options_custom/lib/store.js", "src/browser_action/timer.js", "src/bg/background.js"],
+    "scripts": ["src/options_custom/lib/store.js", "src/browser_action/timer.js", "src/bg/background.js", "src/browser_action/lib/block.js"],
     "persistent": true
   },
   "options_page": "src/options_custom/index.html",
@@ -21,15 +21,17 @@
     "default_popup": "src/browser_action/browser_action.html"
   },
   "permissions": [
+    "activeTab",
+    "background",
     "clipboardRead",
     "clipboardWrite",
     "contextMenus",
-    "background",
     "cookies",
-    "storage",
     "history",
     "idle",
     "notifications",
+    "storage",    
+    "tabs",
     "https://*/"
   ],
   "content_scripts": [
@@ -52,7 +54,7 @@
     },
     {
       "html": ["src/browser_action/browser_action.html"],
-      "js": ["src/browser_action/app.js", "src/browser_action/timer.js", "src/browser_action/lib/jquery-3.1.1.min.js"],
+      "js": ["src/browser_action/app.js", "src/browser_action/timer.js", "src/browser_action/lib/jquery-3.1.1.min.js", "src/browser_action/lib/block.js"],
       "matches": ["http://*/*", "https://*/*"]
     }
   ]
