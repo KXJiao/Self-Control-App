@@ -54,7 +54,7 @@
     },
     {
       "html": ["src/browser_action/browser_action.html"],
-      "js": ["src/browser_action/app.js", "src/browser_action/timer.js", "src/browser_action/lib/jquery-3.1.1.min.js", "src/browser_action/lib/block.js"],
+      "js": ["src/browser_action/app.js", "src/browser_action/timer.js", "src/browser_action/lib/jquery-3.1.1.min.js"],
       "matches": ["http://*/*", "https://*/*"]
     }
   ]

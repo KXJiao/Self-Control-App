@@ -44,14 +44,16 @@ chrome.extension.onMessage.addListener(
             checkIfTimerIsAlive = (function checkTimer() {  //TODO: make the refresh actually resfresh again
                 return function(){ 
                     if((timer.getStartTime()/1000) + timer.getDuration() > (Date.now()/1000)){
+                        console.log((Date.now()/1000) - (timer.getStartTime()/1000 + timer.getDuration()))
                         setTimeout(checkTimer(), 50);
                     }
                     else{
                         blockPages()
-                        //setTimeout(checkTimer(), 50);
+                        return false
                     }
                 }
             }());
+
             checkIfTimerIsAlive();
 
             sendResponse({blah:request.variable});
@@ -60,13 +62,24 @@ chrome.extension.onMessage.addListener(
 });
 
 function blockPages(){
-    console.log("hello")
+    console.log("hello");
 
+    var blocklink = "https://obscure-dawn-82138.herokuapp.com/blockpage/" // add the express routing when other stuff is figured out
 
-    var blocklink = "http://https://obscure-dawn-82138.herokuapp.com/blockpage/" // add the express routing when other stuff is figured out
-    chrome.extension.sendRequest({redirect: blocklink}); // send message to redirect
+    //chrome.extension.sendRequest({redirect: blocklink}); // send message to redirect
+
+    chrome.runtime.sendMessage({redirect: blocklink}); //is not called
+
+    // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    //         chrome.tabs.sendMessage(tabs[0].id, {redirect: blocklink}, function(response) {
+    //             console.log("reached")
+    //         });
+    //     });
+
+    console.log("function end reached");
 
 }
+
 
 document.body.onload = function(){
 
@@ -80,34 +93,39 @@ document.body.onload = function(){
 
     checkIfTimerIsAlive = (function checkTimer() {  //TODO: make the refresh actually resfresh again
         return function(){ 
-            // console.log(timer.getStartTime()/1000)
-            // console.log(timer.getDuration())
-            // console.log((timer.getStartTime()/1000) + timer.getDuration())
-
             if((timer.getStartTime()/1000) + timer.getDuration() > (Date.now()/1000)){ 
-
-
-            setTimeout(checkTimer(), 50);
+                console.log((Date.now()/1000) - (timer.getStartTime()/1000 + timer.getDuration()))
+                setTimeout(checkTimer(), 50);
+            }
+            else{
+                blockPages()
+                return false
+            }
         }
-        else{
-            blockPages()
-            //setTimeout(checkTimer(), 50);
-        }
-    }
         
     }());
 
     checkIfTimerIsAlive();
-    debounce = false
-    chrome.tabs.onUpdated.addListener(function() {
-        if(!debounce){
-            debounce = true
-            console.log("ONUPDATED WAS JUST CALLED")
-            blockPages()
-            debounce = false
-        }
-        
-    });
+
+
 }
 
 
+
+// chrome.tabs.onUpdated.addListener(function() { //This function will need to be changed
+//     //console.log("ONUPDATED WAS JUST CALLED")
+    
+//     var tab, url;
+//     chrome.tabs.query({
+//         active: true,
+//         currentWindow: true
+//     }, function(tabs) {
+//         tab = tabs[0];
+//         url = tab.url;
+//     });
+//     console.log(tabs)
+//     console.log(tab)
+//     console.log(url)
+//     blockPages()
+
+// });

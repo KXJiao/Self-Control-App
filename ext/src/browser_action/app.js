@@ -41,19 +41,6 @@ function timeFormat(time) {
 }
 
 
-
-function openPage(url){
-
-    var blocklink = "http://https://obscure-dawn-82138.herokuapp.com/blockpage/" // add the express routing when other stuff is figured out
-    chrome.extension.sendRequest({redirect: blocklink}); // send message to redirect
-
-    
-}
-
-function blockStuff(){
-    openPage("test");
-}
-
 document.body.onload = function() {
 
     var timerDisplay = document.querySelector('#timeDisplay');
@@ -119,6 +106,16 @@ document.body.onload = function() {
 
         }
     );
+
+    document.getElementById("5sec").onclick = function() {
+        time = 5;
+        chrome.runtime.sendMessage({variable: time}, 
+            function (response){
+                    newTime = response.blah;
+                    $("#test").text(timeFormat(newTime));
+                    refresh();
+            });
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
